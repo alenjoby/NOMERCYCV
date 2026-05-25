@@ -38,7 +38,7 @@ You use phrases like "I love how you...", "It's bold of you to...", "How interes
 Your task is to analyze the user's provided resume text and generate a brutally funny, highly critical, and sarcastic roast.
 CRITICAL DIRECTIONS FOR THE ROAST:
 - Directly point out specific empty claims, tech stack mismatches, or buzzwords in the candidate's resume (e.g., calling out specific project descriptions or roles mentioned in their text).
-- Keep the roast under 150 words and highly structured.
+- Keep the roast between 150 and 250 words, detailed, and structured.
 CRITICAL DIRECTIONS FOR THE IMPROVEMENT TIPS:
 - Provide 3 to 5 cynical, sarcastic but ACTUALLY HIGHLY USEFUL AND SPECIFIC tips on how to improve.
 - The tips MUST NOT BE GENERIC (like "add metrics" or "use a clean font"). They must be tailored directly to their text. For example: "Your bullet point about '[specific task]' is completely meaningless; rewrite it to explain the actual tech stack you used and what you delivered," or "Delete '[specific buzzword]' from your summary—it adds zero value."
@@ -53,7 +53,7 @@ Your persona is the Salty Startup Founder. You are obsessed with "grinding," "hu
 Your task is to analyze the user's provided resume text and generate a brutally funny, highly critical, and sarcastic roast.
 CRITICAL DIRECTIONS FOR THE ROAST:
 - Directly point out specific empty claims, tech stack mismatches, or buzzwords in the candidate's resume (e.g., calling out specific project descriptions or roles mentioned in their text).
-- Keep the roast under 150 words and highly structured.
+- Keep the roast between 150 and 250 words, detailed, and structured.
 CRITICAL DIRECTIONS FOR THE IMPROVEMENT TIPS:
 - Provide 3 to 5 cynical, sarcastic but ACTUALLY HIGHLY USEFUL AND SPECIFIC tips on how to improve.
 - The tips MUST NOT BE GENERIC (like "add metrics" or "use a clean font"). They must be tailored directly to their text. For example: "Your bullet point about '[specific task]' is completely meaningless; rewrite it to explain the actual tech stack you used and what you delivered," or "Delete '[specific buzzword]' from your summary—it adds zero value."
@@ -68,7 +68,7 @@ Your persona is Unchecked Chaos. You have absolutely no filters left. You are co
 Your task is to analyze the user's provided resume text and generate a brutally funny, highly critical, and sarcastic roast.
 CRITICAL DIRECTIONS FOR THE ROAST:
 - Directly point out specific empty claims, tech stack mismatches, or buzzwords in the candidate's resume (e.g., calling out specific project descriptions or roles mentioned in their text).
-- Keep the roast under 150 words and highly structured.
+- Keep the roast between 150 and 250 words, detailed, and structured.
 CRITICAL DIRECTIONS FOR THE IMPROVEMENT TIPS:
 - Provide 3 to 5 cynical, sarcastic but ACTUALLY HIGHLY USEFUL AND SPECIFIC tips on how to improve.
 - The tips MUST NOT BE GENERIC (like "add metrics" or "use a clean font"). They must be tailored directly to their text. For example: "Your bullet point about '[specific task]' is completely meaningless; rewrite it to explain the actual tech stack you used and what you delivered," or "Delete '[specific buzzword]' from your summary—it adds zero value."
@@ -148,7 +148,7 @@ app.post('/api/roast', upload.single('resumeFile'), async (req, res) => {
           properties: {
             roast: { 
               type: 'string', 
-              description: 'The brutally funny, highly critical, and sarcastic roast of the resume, pointing out cliché buzzwords and empty promises. Under 150 words.' 
+              description: 'The brutally funny, highly critical, and sarcastic roast of the resume, pointing out cliché buzzwords and empty promises. Length must be between 150 and 250 words.' 
             },
             score: { 
               type: 'integer', 

@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         osc2.stop(now + duration);
       } 
       else if (type === 'splat') {
-        // Tomato hit squish noise (frequency sweep + high-frequency filter burst)
+        // Tomato hit squish noise
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         
@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Typewriter Streaming Effect ---
   let typewriterInterval = null;
-  function streamText(element, text, speed = 25, callback = null) {
+  function streamText(element, text, speed = 8, callback = null) {
     element.innerHTML = '';
     let index = 0;
     
@@ -367,8 +367,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (costTickerInterval) clearInterval(costTickerInterval);
     currentAccumulatedLoss = 0.0;
     
-    // Yearly expected working hours = 2000 hours
-    // Loss per millisecond = salary / 2000 hours / 3600 seconds / 1000 ms
     const updateRateMs = 43; // run ticker update every 43ms
     
     costTickerInterval = setInterval(() => {
@@ -441,7 +439,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const w = div.offsetWidth || (wordText.length * 8 + 20);
       const h = div.offsetHeight || 30;
       
-      // Random positions inside arena
       const x = Math.random() * (arenaWidth - w - 20) + 10;
       const y = Math.random() * (arenaHeight - h - 20) + 10;
       
@@ -546,92 +543,110 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Canvas Report Card Generator ---
   function triggerReportCardDownload(data) {
     const canvas = document.createElement('canvas');
-    canvas.width = 800;
-    canvas.height = 620;
+    // Portrait Aspect Ratio: perfect for Instagram / Mobile stories
+    canvas.width = 600;
+    canvas.height = 900;
     const ctx = canvas.getContext('2d');
     
-    // Draw Ivory Background
+    // 1. Draw Ivory Background Base
     ctx.fillStyle = '#FDFBF7';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Draw Thick Black Border
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 8;
-    ctx.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
+    // 2. Draw Graph Grid Paper Background
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.lineWidth = 1;
+    const gridSize = 25;
+    for (let x = 0; x < canvas.width; x += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
     
-    // Header block
+    // 3. Draw Thick Outer Black Border
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 10;
+    ctx.strokeRect(5, 5, canvas.width - 10, canvas.height - 10);
+    
+    // 4. Header block
     ctx.fillStyle = '#FF6B6B'; // Toxic Coral
-    ctx.fillRect(30, 30, 740, 80);
+    ctx.fillRect(30, 30, 540, 70);
     ctx.strokeStyle = '#000000';
     ctx.lineWidth = 4;
-    ctx.strokeRect(30, 30, 740, 80);
+    ctx.strokeRect(30, 30, 540, 70);
     
     ctx.fillStyle = '#000000';
-    ctx.font = '800 28px sans-serif';
+    ctx.font = '800 22px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('NO MERCY CV - ROAST REPORT CARD', 400, 70);
+    ctx.fillText('NO MERCY CV - OFFICIAL REPORT', 300, 65);
     
-    // Score panel
+    // 5. Score Panel
     ctx.fillStyle = '#FFDE4D'; // Yellow
-    ctx.fillRect(30, 140, 240, 180);
-    ctx.strokeRect(30, 140, 240, 180);
+    ctx.fillRect(30, 120, 250, 160);
+    ctx.strokeRect(30, 120, 250, 160);
     
     ctx.fillStyle = '#000000';
-    ctx.font = 'bold 15px monospace';
-    ctx.fillText('HIREABILITY RATING', 150, 175);
+    ctx.font = 'bold 12px monospace';
+    ctx.fillText('HIREABILITY RATING', 155, 145);
     
     const score = typeof data.score === 'number' ? data.score : parseInt(data.score) || 0;
-    ctx.font = '800 68px sans-serif';
-    ctx.fillText(`${score}%`, 150, 230);
+    ctx.font = '800 56px sans-serif';
+    ctx.fillText(`${score}%`, 155, 200);
     
-    ctx.font = 'bold 10px monospace';
+    ctx.font = 'bold 9px monospace';
     let label = getScoreLabel(score);
     if (label.length > 34) label = label.substring(0, 32) + '...';
-    ctx.fillText(label, 150, 290);
+    ctx.fillText(label, 155, 250);
     
-    // Judge panel
+    // 6. Judge Profile Panel
     ctx.fillStyle = '#00F0FF'; // Cyan
-    ctx.fillRect(30, 350, 240, 220);
-    ctx.strokeRect(30, 350, 240, 220);
+    ctx.fillRect(300, 120, 270, 160);
+    ctx.strokeRect(300, 120, 270, 160);
     
     ctx.fillStyle = '#000000';
-    ctx.font = 'bold 15px monospace';
-    ctx.fillText('CRITIQUE BY', 150, 380);
+    ctx.font = 'bold 12px monospace';
+    ctx.fillText('CRITIQUE COMPILED BY', 435, 145);
     
     const judge = JUDGE_PROFILES[selectedToxicity] || JUDGE_PROFILES['salty-founder'];
-    ctx.font = '64px sans-serif';
-    ctx.fillText(judge.emoji, 150, 440);
+    ctx.font = '54px sans-serif';
+    ctx.fillText(judge.emoji, 435, 200);
     
-    ctx.font = 'bold 11px monospace';
-    ctx.fillText(judge.name, 150, 500);
-    ctx.font = '9px monospace';
-    ctx.fillText(judge.title, 150, 520);
+    ctx.font = 'bold 10px monospace';
+    ctx.fillText(judge.name, 435, 240);
+    ctx.font = '8px monospace';
+    ctx.fillText(judge.title, 435, 255);
     
-    // Roast panel
+    // 7. Roast Critique Box
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(300, 140, 470, 430);
-    ctx.strokeRect(300, 140, 470, 430);
+    ctx.fillRect(30, 300, 540, 220);
+    ctx.strokeRect(30, 300, 540, 220);
     
     ctx.fillStyle = '#000000';
-    ctx.fillRect(300, 140, 470, 40);
-    ctx.strokeRect(300, 140, 470, 40);
+    ctx.fillRect(30, 300, 540, 30);
+    ctx.strokeRect(30, 300, 540, 30);
     
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 14px monospace';
+    ctx.font = 'bold 12px monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('CRITIQUE SUMMARY', 320, 160);
+    ctx.fillText('THE CRITIQUE SUMMARY', 45, 315);
     
     ctx.fillStyle = '#000000';
-    ctx.font = '14px monospace';
+    ctx.font = '12px monospace';
     
-    // Word wrap
+    // Wrap Critique Text inside Portrait Width
     const words = data.roast.split(' ');
     let line = '';
-    let x = 320;
-    let y = 215;
-    const maxWidth = 430;
-    const lineHeight = 20;
+    let x = 45;
+    let y = 355;
+    const maxWidth = 510;
+    const lineHeight = 18;
     
     for (let n = 0; n < words.length; n++) {
       let testLine = line + words[n] + ' ';
@@ -647,16 +662,98 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     ctx.fillText(line, x, y);
     
-    // Footer watermark
-    ctx.fillStyle = '#888888';
-    ctx.font = '11px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('Hosted locally at http://localhost:5000', 535, 545);
+    // 8. Multi-Subject Grading Grid
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(30, 540, 540, 200);
+    ctx.strokeRect(30, 540, 540, 200);
     
-    // Save image
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(30, 540, 540, 30);
+    ctx.strokeRect(30, 540, 540, 30);
+    
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 12px monospace';
+    ctx.fillText('OFFICIAL GRADE EVALUATION', 45, 555);
+    
+    // Draw table grid
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(30, 625);
+    ctx.lineTo(570, 625);
+    ctx.moveTo(30, 680);
+    ctx.lineTo(570, 680);
+    ctx.moveTo(400, 570);
+    ctx.lineTo(400, 740);
+    ctx.stroke();
+    
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 11px monospace';
+    
+    // Row 1
+    ctx.fillText('SUBJECT', 45, 595);
+    ctx.fillText('EVALUATION GRADE', 415, 595);
+    
+    // Row 2
+    ctx.font = '11px monospace';
+    ctx.fillText('Buzzword Overuse / Cliché density', 45, 650);
+    ctx.font = 'bold 13px monospace';
+    ctx.fillStyle = '#FF6B6B';
+    ctx.fillText(score < 30 ? 'A+ (Exorbitant)' : 'B (Average)', 415, 650);
+    
+    // Row 3
+    ctx.fillStyle = '#000000';
+    ctx.font = '11px monospace';
+    ctx.fillText('Hustle Mentality / Overtime Acceptance', 45, 705);
+    ctx.font = 'bold 13px monospace';
+    ctx.fillStyle = '#FF6B6B';
+    ctx.fillText(score < 20 ? 'F- (Selfish)' : 'C- (Subpar)', 415, 705);
+    
+    // 9. Diagonal Distressed Rubber Stamp
+    ctx.save();
+    ctx.translate(460, 480);
+    ctx.rotate(-0.25);
+    
+    ctx.strokeStyle = 'rgba(255, 107, 107, 0.85)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(-120, -35, 240, 70);
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(-114, -29, 228, 58);
+    
+    ctx.fillStyle = 'rgba(255, 107, 107, 0.85)';
+    ctx.font = '900 24px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(score < 30 ? 'REJECTED' : 'SUBSTANDARD', 0, 0);
+    ctx.restore();
+    
+    // 10. Official Signature Block
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('OFFICIAL SIGNATURE:', 45, 785);
+    ctx.beginPath();
+    ctx.moveTo(180, 792);
+    ctx.lineTo(380, 792);
+    ctx.stroke();
+    
+    ctx.strokeStyle = '#00F0FF';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(200, 780);
+    ctx.bezierCurveTo(240, 750, 220, 800, 260, 770);
+    ctx.bezierCurveTo(300, 740, 310, 810, 350, 775);
+    ctx.stroke();
+    
+    // 11. Footer Watermark Link
+    ctx.fillStyle = '#888888';
+    ctx.font = '10px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('Get roasted at https://nomercycv.vercel.app/', 300, 860);
+    
     const dataUrl = canvas.toDataURL('image/png');
     const link = document.createElement('a');
-    link.download = `no-mercy-roast-${score}pct.png`;
+    link.download = `no-mercy-report-card-${score}.png`;
     link.href = dataUrl;
     document.body.appendChild(link);
     link.click();
@@ -695,11 +792,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!hasInput) return;
 
-    // Trigger Audio init and start Loader Sizzle
     initAudio();
     startSizzleSound();
 
-    // Transition views
     inputCard.classList.add('hidden');
     loaderCard.classList.remove('hidden');
     progressBar.style.width = '0%';
@@ -774,7 +869,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loaderCard.classList.add('hidden');
     resultsCard.classList.remove('hidden');
     
-    // Reset cards visibility
     document.getElementById('tipsCard').classList.add('hidden');
     document.getElementById('rewritesCard').classList.add('hidden');
     document.getElementById('gameCard').classList.add('hidden');
@@ -784,29 +878,24 @@ document.addEventListener('DOMContentLoaded', () => {
     tipsList.innerHTML = '';
     scoreCard.classList.remove('shaker');
 
-    // Populate score details
     const score = typeof data.score === 'number' ? data.score : parseInt(data.score) || 0;
     scoreDisplay.innerText = `${score}%`;
     scoreLabel.innerText = getScoreLabel(score);
 
-    // Populate judge header details
     const judgeProfile = JUDGE_PROFILES[selectedToxicity] || JUDGE_PROFILES['salty-founder'];
     document.getElementById('judgeAvatar').innerText = judgeProfile.emoji;
     document.getElementById('judgeName').innerText = judgeProfile.name;
     document.getElementById('judgeTitle').innerText = judgeProfile.title;
 
-    // Stream Roast Text only in the critique box
-    streamText(roastOutput, data.roast, 20, () => {
-      // Once typewriter finishes, play buzzer or chimes
+    streamText(roastOutput, data.roast, 8, () => {
       if (score < 20) {
         playSynth('alarm');
         scoreCard.classList.add('shaker');
-        setTimeout(() => playSynth('alarm'), 500); // double alarm for dramatic impact
+        setTimeout(() => playSynth('alarm'), 500);
       } else {
         playSynth('success');
       }
 
-      // 1. Render tips and show card
       if (data.tips && Array.isArray(data.tips)) {
         data.tips.forEach((tip, index) => {
           setTimeout(() => {
@@ -818,7 +907,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       document.getElementById('tipsCard').classList.remove('hidden');
 
-      // 2. Render Before/After comparative rewrites and show card
       const rewritesContainer = document.getElementById('rewritesContainer');
       rewritesContainer.innerHTML = '';
       if (data.rewrites && Array.isArray(data.rewrites)) {
@@ -844,12 +932,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       document.getElementById('rewritesCard').classList.remove('hidden');
 
-      // 3. Setup Buzzword Eliminator game and show card
       document.getElementById('gameCard').classList.remove('hidden');
       const textToExtractFrom = data.roast + " " + (activeTab === 'paste' ? pasteInput.value : selectedFile.name);
       initBuzzwordGame(textToExtractFrom, data.rewrites);
 
-      // 4. Setup Salary Cost Calculator and show card
       document.getElementById('calculatorCard').classList.remove('hidden');
       startCostTicker();
     });
@@ -857,12 +943,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Restart Screen ---
   restartBtn.addEventListener('click', () => {
-    // Stop loops and games
     stopCostTicker();
     stopBuzzwordGame();
     stopSizzleSound();
 
-    // Reset file states
     selectedFile = null;
     fileInput.value = '';
     fileNameDisplay.innerText = '';
