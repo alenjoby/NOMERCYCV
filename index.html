@@ -1,129 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NO MERCY CV | AI-Powered Brutal CV Roasting</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💀</text></svg>">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NO MERCY CV | AI-Powered Brutal CV Roasting</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💀</text></svg>"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Background Decorative Icons -->
+    <div class="emoji-bg-container" id="emojiBg"></div>
 
-  <!-- Background Decorative Icons -->
-  <div class="emoji-bg-container" id="emojiBg"></div>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="logo-box">NO MERCY CV</div>
+        <h2 class="sub-headline">AI-Powered Brutal CV Roasting</h2>
+        <p class="tagline">
+          No Mercy • Pure Entertainment • Actually Actionable Advice
+        </p>
+      </header>
 
-  <div class="app-container">
-    <!-- Header -->
-    <header class="main-header">
-      <div class="logo-box">
-        NO MERCY CV
-      </div>
-      <h2 class="sub-headline">AI-Powered Brutal CV Roasting</h2>
-      <p class="tagline">No Mercy • Pure Entertainment • Actually Actionable Advice</p>
-    </header>
-
-    <!-- Main Content Area -->
-    <main class="card main-card" id="inputCard">
-      <!-- Input Mode Toggle -->
-      <div class="toggle-container">
-        <button class="toggle-btn active" id="toggleUpload">📄 UPLOAD FILE</button>
-        <button class="toggle-btn" id="togglePaste">✍️ PASTE TEXT</button>
-      </div>
-
-      <!-- File Upload Area -->
-      <div class="input-section" id="uploadSection">
-        <div class="dropzone" id="dropzone">
-          <input type="file" id="fileInput" accept=".txt,.pdf,.docx" style="display: none;">
-          <div class="dropzone-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-            </svg>
-          </div>
-          <h3 class="dropzone-title">Drop Your CV Here</h3>
-          <p class="dropzone-subtitle">PDF, DOCX, TXT (Max 5MB)</p>
-          <div class="file-name-display" id="fileNameDisplay"></div>
+      <!-- Main Content Area -->
+      <main class="card main-card" id="inputCard">
+        <!-- Input Mode Toggle -->
+        <div class="toggle-container">
+          <button class="toggle-btn active" id="toggleUpload">
+            📄 UPLOAD FILE
+          </button>
+          <button class="toggle-btn" id="togglePaste">✍️ PASTE TEXT</button>
         </div>
-      </div>
 
-      <!-- Paste Text Area -->
-      <div class="input-section hidden" id="pasteSection">
-        <textarea id="pasteInput" placeholder="Paste your CV text here... Be honest, or we will detect your lies anyway."></textarea>
-      </div>
-
-      <!-- Toxicity Level Selector -->
-      <div class="chaos-selection-container">
-        <label class="section-label">SELECT RECRUITER TOXICITY:</label>
-        <div class="chaos-cards">
-          <!-- Card 1: Passive-Aggressive -->
-          <div class="chaos-card" data-level="passive-aggressive">
-            <div class="card-badge badge-cyan">POLITE</div>
-            <h3>Passive-Aggressive Recruiter</h3>
-            <p>Corporate speak that subtly destroys your life choices.</p>
-          </div>
-          <!-- Card 2: Salty Founder (Default) -->
-          <div class="chaos-card selected" data-level="salty-founder">
-            <div class="card-badge badge-yellow">POPULAR</div>
-            <h3>Salty Startup Founder</h3>
-            <p>Condescending tech-bro tone about hustle, equity, and sleeping under desks.</p>
-          </div>
-          <!-- Card 3: Unchecked Chaos -->
-          <div class="chaos-card" data-level="unchecked-chaos">
-            <div class="card-badge badge-coral">TOXIC</div>
-            <h3>Unchecked Chaos</h3>
-            <p>Full existential destruction. Personal attacks on your font choices. No filters.</p>
+        <!-- File Upload Area -->
+        <div class="input-section" id="uploadSection">
+          <div class="dropzone" id="dropzone">
+            <input
+              type="file"
+              id="fileInput"
+              accept=".txt,.pdf,.docx"
+              style="display: none"
+            />
+            <div class="dropzone-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="square"
+                stroke-linejoin="miter"
+              >
+                <path
+                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"
+                />
+              </svg>
+            </div>
+            <h3 class="dropzone-title">Drop Your CV Here</h3>
+            <p class="dropzone-subtitle">PDF, DOCX, TXT (Max 5MB)</p>
+            <div class="file-name-display" id="fileNameDisplay"></div>
           </div>
         </div>
+
+        <!-- Paste Text Area -->
+        <div class="input-section hidden" id="pasteSection">
+          <textarea
+            id="pasteInput"
+            placeholder="Paste your CV text here... Be honest, or we will detect your lies anyway."
+          ></textarea>
+        </div>
+
+        <!-- Toxicity Level Selector -->
+        <div class="chaos-selection-container">
+          <label class="section-label">SELECT RECRUITER TOXICITY:</label>
+          <div class="chaos-cards">
+            <!-- Card 1: Passive-Aggressive -->
+            <div class="chaos-card" data-level="passive-aggressive">
+              <div class="card-badge badge-cyan">POLITE</div>
+              <h3>Passive-Aggressive Recruiter</h3>
+              <p>Corporate speak that subtly destroys your life choices.</p>
+            </div>
+            <!-- Card 2: Salty Founder (Default) -->
+            <div class="chaos-card selected" data-level="salty-founder">
+              <div class="card-badge badge-yellow">POPULAR</div>
+              <h3>Salty Startup Founder</h3>
+              <p>
+                Condescending tech-bro tone about hustle, equity, and sleeping
+                under desks.
+              </p>
+            </div>
+            <!-- Card 3: Unchecked Chaos -->
+            <div class="chaos-card" data-level="unchecked-chaos">
+              <div class="card-badge badge-coral">TOXIC</div>
+              <h3>Unchecked Chaos</h3>
+              <p>
+                Full existential destruction. Personal attacks on your font
+                choices. No filters.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <button class="action-btn" id="roastBtn">ROAST MY CV 🔥</button>
+      </main>
+
+      <!-- Processing/Loader Screen -->
+      <div class="card loader-card hidden" id="loaderCard">
+        <div class="loader-emoji">💀</div>
+        <h1 class="loader-title">CONSTRUCTING LIES...</h1>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p class="loader-text" id="loaderText">[Scanning for font crimes...]</p>
       </div>
 
-      <!-- Action Button -->
-      <button class="action-btn" id="roastBtn">ROAST MY CV 🔥</button>
-    </main>
+      <!-- Dashboard Reveal (Results) -->
+      <div class="dashboard-reveal hidden" id="resultsCard">
+        <div class="dashboard-grid">
+          <!-- Left Side: Critique -->
+          <div class="card roast-box-card">
+            <div class="card-header-accent font-mono">THE CRITIQUE</div>
+            <div class="roast-text-container">
+              <p id="roastOutput" class="roast-output font-mono"></p>
+            </div>
+          </div>
 
-    <!-- Processing/Loader Screen -->
-    <div class="card loader-card hidden" id="loaderCard">
-      <div class="loader-emoji">💀</div>
-      <h1 class="loader-title">CONSTRUCTING LIES...</h1>
-      <div class="progress-bar-container">
-        <div class="progress-bar" id="progressBar"></div>
+          <!-- Right Side: Score & Tips -->
+          <div class="dashboard-sidebar">
+            <!-- Score Badge -->
+            <div class="card score-card" id="scoreCard">
+              <div class="card-header-accent">HIREABILITY RATING</div>
+              <div class="score-display" id="scoreDisplay">12%</div>
+              <p class="score-label" id="scoreLabel">ABSOLUTELY HOPELESS</p>
+            </div>
+
+            <!-- Improvement Tips -->
+            <div class="card tips-card">
+              <div class="card-header-accent font-mono">HOW TO BE BETTER</div>
+              <ul class="tips-list" id="tipsList">
+                <!-- Rendered dynamically -->
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <button class="action-btn restart-btn" id="restartBtn">
+          ROAST A DIFFERENT ONE ☠️
+        </button>
       </div>
-      <p class="loader-text" id="loaderText">[Scanning for font crimes...]</p>
     </div>
 
-    <!-- Dashboard Reveal (Results) -->
-    <div class="dashboard-reveal hidden" id="resultsCard">
-      <div class="dashboard-grid">
-        <!-- Left Side: Critique -->
-        <div class="card roast-box-card">
-          <div class="card-header-accent font-mono">THE CRITIQUE</div>
-          <div class="roast-text-container">
-            <p id="roastOutput" class="roast-output font-mono"></p>
-          </div>
-        </div>
+    <footer class="app-footer">
+      DEVELOPED WITH LOVE BY <span class="team-highlight">TEAM 3</span>
+    </footer>
 
-        <!-- Right Side: Score & Tips -->
-        <div class="dashboard-sidebar">
-          <!-- Score Badge -->
-          <div class="card score-card" id="scoreCard">
-            <div class="card-header-accent">HIREABILITY RATING</div>
-            <div class="score-display" id="scoreDisplay">12%</div>
-            <p class="score-label" id="scoreLabel">ABSOLUTELY HOPELESS</p>
-          </div>
-
-          <!-- Improvement Tips -->
-          <div class="card tips-card">
-            <div class="card-header-accent font-mono">HOW TO BE BETTER</div>
-            <ul class="tips-list" id="tipsList">
-              <!-- Rendered dynamically -->
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <button class="action-btn restart-btn" id="restartBtn">ROAST A DIFFERENT ONE ☠️</button>
-    </div>
-  </div>
-
-  <!-- JavaScript -->
-  <script src="script.js"></script>
-</body>
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@500;700&display=swap");
 
 /* Basic Resets & Variables */
 :root {
-  --bg-color: #FDFBF7;
+  --bg-color: #fdfbf7;
   --black: #000000;
-  --yellow: #FFDE4D;
-  --coral: #FF6B6B;
-  --cyan: #00F0FF;
-  --green: #74E291;
-  --font-header: 'Syne', 'Arial Black', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --yellow: #ffde4d;
+  --coral: #ff6b6b;
+  --cyan: #00f0ff;
+  --green: #74e291;
+  --font-header: "Syne", "Arial Black", sans-serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
   --border-thick: 4px solid var(--black);
   --shadow-flat: 8px 8px 0px var(--black);
   --shadow-active: 2px 2px 0px var(--black);
@@ -71,7 +71,7 @@ body {
 
 /* Card Styles */
 .card {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: var(--border-thick);
   box-shadow: var(--shadow-flat);
   padding: 2rem;
@@ -107,8 +107,12 @@ body {
 }
 
 @keyframes logoWiggle {
-  0% { transform: rotate(-1.5deg); }
-  100% { transform: rotate(1.5deg); }
+  0% {
+    transform: rotate(-1.5deg);
+  }
+  100% {
+    transform: rotate(1.5deg);
+  }
 }
 
 .sub-headline {
@@ -138,7 +142,7 @@ body {
 }
 
 .toggle-btn {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: var(--border-thick);
   box-shadow: 4px 4px 0px var(--black);
   font-family: var(--font-header);
@@ -174,23 +178,26 @@ textarea {
   font-size: 1rem;
   outline: none;
   resize: vertical;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 
 textarea:focus {
-  background-color: #FFFFFF;
-  box-shadow: inset 4px 4px 0px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  box-shadow: inset 4px 4px 0px rgba(0, 0, 0, 0.1);
 }
 
 /* Dropzone Styling */
 .dropzone {
   border: 4px dashed var(--black);
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   padding: 3rem 1.5rem;
   text-align: center;
   cursor: pointer;
   position: relative;
-  transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
   box-shadow: 4px 4px 0px var(--black);
 }
 
@@ -264,7 +271,7 @@ textarea:focus {
 }
 
 .chaos-card {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: var(--border-thick);
   box-shadow: 4px 4px 0px var(--black);
   padding: 1.5rem 1rem;
@@ -284,21 +291,21 @@ textarea:focus {
 .chaos-card.selected {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0px var(--black);
-  background-color: #FFFDF0;
+  background-color: #fffdf0;
 }
 
 .chaos-card[data-level="passive-aggressive"].selected {
-  background-color: #E6FDFF;
+  background-color: #e6fdff;
   border-color: var(--black);
 }
 
 .chaos-card[data-level="salty-founder"].selected {
-  background-color: #FFFDE6;
+  background-color: #fffde6;
   border-color: var(--black);
 }
 
 .chaos-card[data-level="unchecked-chaos"].selected {
-  background-color: #FFE6E6;
+  background-color: #ffe6e6;
   border-color: var(--black);
 }
 
@@ -313,9 +320,15 @@ textarea:focus {
   margin-bottom: 1rem;
 }
 
-.badge-cyan { background-color: var(--cyan); }
-.badge-yellow { background-color: var(--yellow); }
-.badge-coral { background-color: var(--coral); }
+.badge-cyan {
+  background-color: var(--cyan);
+}
+.badge-yellow {
+  background-color: var(--yellow);
+}
+.badge-coral {
+  background-color: var(--coral);
+}
 
 .chaos-card h3 {
   font-family: var(--font-header);
@@ -370,8 +383,12 @@ textarea:focus {
 }
 
 @keyframes emojiDance {
-  0% { transform: scale(1) rotate(-15deg); }
-  100% { transform: scale(1.2) rotate(15deg); }
+  0% {
+    transform: scale(1) rotate(-15deg);
+  }
+  100% {
+    transform: scale(1.2) rotate(15deg);
+  }
 }
 
 .loader-title {
@@ -384,7 +401,7 @@ textarea:focus {
   width: 100%;
   height: 30px;
   border: var(--border-thick);
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   margin-bottom: 1.5rem;
   overflow: hidden;
   position: relative;
@@ -410,8 +427,14 @@ textarea:focus {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dashboard-grid {
@@ -429,7 +452,7 @@ textarea:focus {
 
 .card-header-accent {
   background-color: var(--black);
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 0.5rem 1rem;
   display: inline-block;
   font-weight: bold;
@@ -454,8 +477,13 @@ textarea:focus {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* Dashboard Sidebar */
@@ -477,8 +505,12 @@ textarea:focus {
 }
 
 @keyframes violentShake {
-  0% { transform: translate(-3px, -3px) rotate(-1.5deg); }
-  100% { transform: translate(3px, 3px) rotate(1.5deg); }
+  0% {
+    transform: translate(-3px, -3px) rotate(-1.5deg);
+  }
+  100% {
+    transform: translate(3px, 3px) rotate(1.5deg);
+  }
 }
 
 .score-display {
@@ -527,4 +559,33 @@ textarea:focus {
 }
 .restart-btn:active {
   box-shadow: var(--shadow-active);
+}
+
+/* Footer Styles */
+.app-footer {
+  text-align: center;
+  font-family: var(--font-header);
+  margin-top: 3rem;
+  font-size: 1.2rem;
+  padding-bottom: 2rem;
+}
+
+.team-highlight {
+  display: inline-block;
+  font-weight: bold;
+  background-color: var(--yellow);
+  border: 3px solid var(--black);
+  box-shadow: 4px 4px 0px var(--black);
+  padding: 0.2rem 0.6rem;
+  margin-left: 0.5rem;
+  transform: rotate(-1deg);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.team-highlight:hover {
+  transform: scale(1.1) rotate(2deg);
+  box-shadow: 6px 6px 0px var(--black);
 }
