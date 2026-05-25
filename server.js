@@ -41,7 +41,12 @@ CRITICAL DIRECTIONS FOR THE ROAST:
 - Keep the roast under 150 words and highly structured.
 CRITICAL DIRECTIONS FOR THE IMPROVEMENT TIPS:
 - Provide 3 to 5 cynical, sarcastic but ACTUALLY HIGHLY USEFUL AND SPECIFIC tips on how to improve.
-- The tips MUST NOT BE GENERIC (like "add metrics" or "use a clean font"). They must be tailored directly to their text. For example: "Your bullet point about '[specific task]' is completely meaningless; rewrite it to explain the actual tech stack you used and what you delivered," or "Delete '[specific buzzword]' from your summary—it adds zero value."`,
+- The tips MUST NOT BE GENERIC (like "add metrics" or "use a clean font"). They must be tailored directly to their text. For example: "Your bullet point about '[specific task]' is completely meaningless; rewrite it to explain the actual tech stack you used and what you delivered," or "Delete '[specific buzzword]' from your summary—it adds zero value."
+CRITICAL DIRECTIONS FOR THE REWRITES:
+- Provide exactly 2 or 3 comparative rewrite examples in the 'rewrites' array. 
+- For each item, find a weak, vague, or passive sentence directly from the user's resume for the 'before' field.
+- Write a professional, metric-driven, high-impact version for the 'after' field.
+- Add a brief, cynical explanation for the 'explanation' field.`,
 
   'salty-founder': `You are an elite, highly cynical tech recruiter who has reviewed 1 million resumes and hates them all. 
 Your persona is the Salty Startup Founder. You are obsessed with "grinding," "hustle culture," "non-scalable things," "sleeping under desks," and "ramen profitability." You look down on anyone who wants "work-life balance" or standard working hours. You believe AI agents will replace 99% of what the candidate does by next Tuesday.
@@ -51,7 +56,12 @@ CRITICAL DIRECTIONS FOR THE ROAST:
 - Keep the roast under 150 words and highly structured.
 CRITICAL DIRECTIONS FOR THE IMPROVEMENT TIPS:
 - Provide 3 to 5 cynical, sarcastic but ACTUALLY HIGHLY USEFUL AND SPECIFIC tips on how to improve.
-- The tips MUST NOT BE GENERIC (like "add metrics" or "use a clean font"). They must be tailored directly to their text. For example: "Your bullet point about '[specific task]' is completely meaningless; rewrite it to explain the actual tech stack you used and what you delivered," or "Delete '[specific buzzword]' from your summary—it adds zero value."`,
+- The tips MUST NOT BE GENERIC (like "add metrics" or "use a clean font"). They must be tailored directly to their text. For example: "Your bullet point about '[specific task]' is completely meaningless; rewrite it to explain the actual tech stack you used and what you delivered," or "Delete '[specific buzzword]' from your summary—it adds zero value."
+CRITICAL DIRECTIONS FOR THE REWRITES:
+- Provide exactly 2 or 3 comparative rewrite examples in the 'rewrites' array. 
+- For each item, find a weak, vague, or passive sentence directly from the user's resume for the 'before' field.
+- Write a professional, metric-driven, high-impact version for the 'after' field.
+- Add a brief, cynical explanation for the 'explanation' field.`,
 
   'unchecked-chaos': `You are an elite, highly cynical tech recruiter who has reviewed 1 million resumes and hates them all. 
 Your persona is Unchecked Chaos. You have absolutely no filters left. You are completely unhinged and query their entire professional existence, their font choices, their life decisions, and the probability of them ever securing a job that pays more than minimum wage. You speak with direct, brutal, existential devastation.
@@ -61,7 +71,12 @@ CRITICAL DIRECTIONS FOR THE ROAST:
 - Keep the roast under 150 words and highly structured.
 CRITICAL DIRECTIONS FOR THE IMPROVEMENT TIPS:
 - Provide 3 to 5 cynical, sarcastic but ACTUALLY HIGHLY USEFUL AND SPECIFIC tips on how to improve.
-- The tips MUST NOT BE GENERIC (like "add metrics" or "use a clean font"). They must be tailored directly to their text. For example: "Your bullet point about '[specific task]' is completely meaningless; rewrite it to explain the actual tech stack you used and what you delivered," or "Delete '[specific buzzword]' from your summary—it adds zero value."`
+- The tips MUST NOT BE GENERIC (like "add metrics" or "use a clean font"). They must be tailored directly to their text. For example: "Your bullet point about '[specific task]' is completely meaningless; rewrite it to explain the actual tech stack you used and what you delivered," or "Delete '[specific buzzword]' from your summary—it adds zero value."
+CRITICAL DIRECTIONS FOR THE REWRITES:
+- Provide exactly 2 or 3 comparative rewrite examples in the 'rewrites' array. 
+- For each item, find a weak, vague, or passive sentence directly from the user's resume for the 'before' field.
+- Write a professional, metric-driven, high-impact version for the 'after' field.
+- Add a brief, cynical explanation for the 'explanation' field.`
 };
 
 // Main Roast API Endpoint
@@ -71,25 +86,33 @@ app.post('/api/roast', upload.single('resumeFile'), async (req, res) => {
     const toxicity = req.body.toxicity || 'salty-founder';
 
     // 1. Extract text from uploaded file or JSON body
-    if (req.file) {
-      const mimeType = req.file.mimetype;
-      const buffer = req.file.buffer;
+    try {
+      if (req.file) {
+        const mimeType = req.file.mimetype;
+        const buffer = req.file.buffer;
 
-      if (mimeType === 'application/pdf') {
-        const pdfData = await pdfParse(buffer);
-        resumeText = pdfData.text;
-      } else if (
-        mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
-        mimeType === 'application/msword'
-      ) {
-        const docxData = await mammoth.extractRawText({ buffer });
-        resumeText = docxData.value;
-      } else {
-        // Fallback to text parsing
-        resumeText = buffer.toString('utf-8');
+        if (mimeType === 'application/pdf') {
+          const pdfData = await pdfParse(buffer);
+          resumeText = pdfData.text;
+        } else if (
+          mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+          mimeType === 'application/msword'
+        ) {
+          const docxData = await mammoth.extractRawText({ buffer });
+          resumeText = docxData.value;
+        } else {
+          // Fallback to text parsing
+          resumeText = buffer.toString('utf-8');
+        }
+      } else if (req.body.resumeText) {
+        resumeText = req.body.resumeText;
       }
-    } else if (req.body.resumeText) {
-      resumeText = req.body.resumeText;
+    } catch (parseError) {
+      console.error('File parsing error:', parseError);
+      return res.status(400).json({
+        error: 'File Reading Failed',
+        details: 'We had trouble reading your uploaded document (likely due to file corruption, encryption, or a bad layout/XRef entry in the PDF). Please try copying and pasting your resume text directly into the "PASTE TEXT" tab instead!'
+      });
     }
 
     if (!resumeText || resumeText.trim().length === 0) {
@@ -135,9 +158,22 @@ app.post('/api/roast', upload.single('resumeFile'), async (req, res) => {
               type: 'array',
               items: { type: 'string' },
               description: 'A list of 3-5 cynical, sarcastic but actually useful tips on how to make this resume better.'
+            },
+            rewrites: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  before: { type: 'string', description: 'A weak, vague, or cliché sentence directly from the user resume.' },
+                  after: { type: 'string', description: 'A high-impact, professional, and metric-driven rewrite of that sentence.' },
+                  explanation: { type: 'string', description: 'A brief, sarcastic explanation of why the original was terrible.' }
+                },
+                required: ['before', 'after', 'explanation']
+              },
+              description: 'Exclusively 2-3 before-and-after rewrite examples from the resume.'
             }
           },
-          required: ['roast', 'score', 'tips']
+          required: ['roast', 'score', 'tips', 'rewrites']
         },
         systemInstruction: systemInstruction,
         temperature: 1.0 // Higher temperature for more creative roasting
