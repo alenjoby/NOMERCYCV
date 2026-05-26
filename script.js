@@ -638,29 +638,64 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillText('THE CRITIQUE SUMMARY', 45, 315);
     
     ctx.fillStyle = '#000000';
-    ctx.font = '12px monospace';
     
-    // Wrap Critique Text inside Portrait Width
-    const words = data.roast.split(' ');
-    let line = '';
-    let x = 45;
-    let y = 355;
+    // Wrap Critique Text with Dynamic Font Scaling
     const maxWidth = 510;
-    const lineHeight = 18;
+    const maxBoxHeight = 175; // box is 220 high, title takes 30, padding is 15px at top & bottom
+    const words = data.roast.split(' ');
     
-    for (let n = 0; n < words.length; n++) {
-      let testLine = line + words[n] + ' ';
-      let metrics = ctx.measureText(testLine);
-      let testWidth = metrics.width;
-      if (testWidth > maxWidth && n > 0) {
-        ctx.fillText(line, x, y);
-        line = words[n] + ' ';
-        y += lineHeight;
-      } else {
-        line = testLine;
+    let fontSize = 12;
+    let lineHeight = 18;
+    let wrappedLines = [];
+    
+    // Try scaling down from 12px to 8.5px to make it fit
+    while (fontSize >= 8.5) {
+      ctx.font = `${fontSize}px monospace`;
+      wrappedLines = [];
+      let currentLine = '';
+      
+      for (let n = 0; n < words.length; n++) {
+        let testLine = currentLine + words[n] + ' ';
+        let metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && n > 0) {
+          wrappedLines.push(currentLine.trim());
+          currentLine = words[n] + ' ';
+        } else {
+          currentLine = testLine;
+        }
+      }
+      if (currentLine) {
+        wrappedLines.push(currentLine.trim());
+      }
+      
+      const totalHeight = wrappedLines.length * lineHeight;
+      if (totalHeight <= maxBoxHeight) {
+        break; // It fits!
+      }
+      
+      // Scale down
+      fontSize -= 0.5;
+      lineHeight = Math.max(12, Math.floor(lineHeight - 0.7));
+    }
+    
+    // If it still doesn't fit at 8.5px, truncate
+    if (wrappedLines.length * lineHeight > maxBoxHeight) {
+      const allowedLines = Math.floor(maxBoxHeight / lineHeight);
+      wrappedLines = wrappedLines.slice(0, allowedLines);
+      if (wrappedLines.length > 0) {
+        const lastLine = wrappedLines[wrappedLines.length - 1];
+        wrappedLines[wrappedLines.length - 1] = lastLine.substring(0, Math.max(5, lastLine.length - 3)) + '...';
       }
     }
-    ctx.fillText(line, x, y);
+    
+    // Render the wrapped lines
+    ctx.font = `${fontSize}px monospace`;
+    ctx.textAlign = 'left';
+    let drawY = 350; // starts at y=350, title ends around y=330
+    wrappedLines.forEach(line => {
+      ctx.fillText(line, 45, drawY);
+      drawY += lineHeight;
+    });
     
     // 8. Multi-Subject Grading Grid
     ctx.fillStyle = '#FFFFFF';
