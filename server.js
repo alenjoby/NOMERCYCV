@@ -139,8 +139,8 @@ app.post('/api/roast', upload.single('resumeFile'), async (req, res) => {
     // 3. Multi-model fallback sequence to handle 503 high demand or 429 rate limits
     const candidateModels = [
       'gemini-2.5-flash',
-      'gemini-2.0-flash',
-      'gemini-2.5-flash-lite'
+      'gemini-3.8-flash',
+      'gemini-3.5-flash-lite'
     ];
 
     const generateConfig = {
